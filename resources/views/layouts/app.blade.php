@@ -247,6 +247,7 @@ https://templatemo.com/tm-559-zay-shop
     <script src="{{ asset('assets/js/templatemo.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <!-- End Script -->
+    @stack('scripts')
 </body>
 
 </html>

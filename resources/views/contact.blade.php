@@ -1,5 +1,19 @@
 @extends('layouts.app')
 
+@push('scripts')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <style>
+        #mapid {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+@endpush
+
 @section('content')
     <!-- Start Content Page -->
     <div class="container-fluid bg-light py-5">
@@ -13,30 +27,33 @@
     </div>
 
     <!-- Start Map -->
-    <div id="mapid" style="width: 100%; height: 300px;"></div>
+    <div class="container-fluid">
+        <div id="mapid"></div>
+    </div>
     @push('scripts')
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
             integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
             crossorigin=""></script>
         <script>
-            var mymap = L.map('mapid').setView([-23.013104, -43.394365, 13], 13);
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
-            L.tileLayer(
-                'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                    maxZoom: 18,
-                    attribution: 'Zay Telmplte | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                    id: 'mapbox/streets-v11',
-                    tileSize: 512,
-                    zoomOffset: -1
-                }).addTo(mymap);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(mymap);
 
-            L.marker([-23.013104, -43.394365, 13]).addTo(mymap)
-                .bindPopup("<b>Zay</b> eCommerce Template<br />Location.").openPopup();
+                    L.marker([51.505, -0.09]).addTo(mymap)
+                        .bindPopup('<b>Zay Shop</b><br />Our Location')
+                        .openPopup();
 
-            mymap.scrollWheelZoom.disable();
-            mymap.touchZoom.disable();
+                    // Prevent scrolling from zooming the map
+                    mymap.scrollWheelZoom.disable();
+
+                    // Force the map to redraw by triggering a resize event
+                    mymap.invalidateSize();
+                }, 100);
+            });
         </script>
     @endpush
     <!-- End Map -->
