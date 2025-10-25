@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/templatemo.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    
+    <!-- Slick Slider -->
+    <link rel="stylesheet" href="{{ asset('assets/css/slick.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/slick-theme.css') }}">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet"
@@ -246,6 +250,9 @@ https://templatemo.com/tm-559-zay-shop
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/templatemo.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    
+    <!-- Slick Slider -->
+    <script src="{{ asset('assets/js/slick.min.js') }}"></script>
     <!-- End Script -->
     @stack('scripts')
 </body>
