@@ -15,5 +15,5 @@ Route::get('/shop', function () {
 })->name('shop.index');
 
 Route::get('/contact', function () {
-    return 'Contact Page Placeholder'; // Temporary placeholder
+    return view('contact');
 })->name('contact');
