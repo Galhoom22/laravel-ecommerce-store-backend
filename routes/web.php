@@ -11,7 +11,7 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::get('/shop', function () {
-    return 'Shop Page Placeholder'; // Temporary placeholder
+    return view('shop');
 })->name('shop.index');
 
 Route::get('/contact', function () {
