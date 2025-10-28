@@ -19,14 +19,14 @@ class RolePermissionSeeder extends Seeder
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         // 2. create permissions
-        $manageProducts = Permission::create(['name' => 'manage-products']);
-        $manageCategories = Permission::create(['name' => 'manage-categories']);
-        $manageOrders = Permission::create(['name' => 'manage-orders']);
-        $placeOrders = Permission::create(['name' => 'place-orders']);
+        $manageProducts = Permission::firstOrCreate(['name' => 'manage-products']);
+        $manageCategories = Permission::firstOrCreate(['name' => 'manage-categories']);
+        $manageOrders = Permission::firstOrCreate(['name' => 'manage-orders']);
+        $placeOrders = Permission::firstOrCreate(['name' => 'place-orders']);
 
         // 3. create roles
-        $adminRole = Role::create(['name' => 'admin']);
-        $customerRole = Role::create(['name' => 'customer']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $customerRole = Role::firstOrCreate(['name' => 'customer']);
 
         // 4. assign all permissions to admin
         $adminRole->givePermissionTo([
