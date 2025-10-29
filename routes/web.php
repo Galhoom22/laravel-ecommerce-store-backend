@@ -1,23 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
+// Public pages
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/shop', [PageController::class, 'shop'])->name('shop.index');
+Route::get('/shop/{product}', [PageController::class, 'showProduct'])->name('shop.single');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+// Authentication pages (views only)
+Route::view('/register', 'auth.register');
+Route::view('/login', 'auth.login');
 
-Route::get('/shop', function () {
-    return view('shop');
-})->name('shop.index');
-
-Route::get('/shop/{product}', function ($product) {
-    return view('shop-single');
-})->name('shop.single');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+// Authentication actions (logic)
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/register', 'register')->name('register');
+    Route::post('/login', 'login')->name('login');
+    Route::post('/logout', 'logout')->name('logout');
+});
