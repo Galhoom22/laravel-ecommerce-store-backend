@@ -1,0 +1,75 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container-fluid bg-light py-5">
+        <div class="col-md-6 m-auto text-center">
+            <h1 class="h1">Add New Category</h1>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <form action="{{ route('admin.categories.store') }}" method="POST" class="col-md-8 m-auto">
+            @csrf
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Category Name</label>
+                <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"
+                    required>
+                @error('name')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Slug -->
+            <div class="mb-3">
+                <label for="slug" class="form-label">Slug</label>
+                <input type="text" name="slug" id="slug" class="form-control" value="{{ old('slug') }}"
+                    required>
+                @error('slug')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="description" id="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                @error('description')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Parent Category -->
+            <div class="mb-3">
+                <label for="parent_id" class="form-label">Parent Category</label>
+                <select name="parent_id" id="parent_id" class="form-control">
+                    <option value="">None (Top Level)</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('parent_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Is Active -->
+            <div class="mb-3">
+                <div class="form-check">
+                    <input type="checkbox" name="is_active" id="is_active" class="form-check-input" value="1"
+                        {{ old('is_active') ? 'checked' : '' }}>
+                    <label for="is_active" class="form-check-label">Active</label>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-end">
+                <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-success">Create Category</button>
+            </div>
+        </form>
+    </div>
+@endsection
