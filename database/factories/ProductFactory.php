@@ -26,7 +26,7 @@ class ProductFactory extends Factory
             'price' => fake()->randomFloat(2, 10, 999.99),
             'quantity' => fake()->numberBetween(0, 100),
             'image' => null,
-            'category_id' => Category::inRandomOrder()->first()?->id,
+            'category_id' => Category::factory(),
             'is_active' => true,
         ];
     }

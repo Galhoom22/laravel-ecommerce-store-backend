@@ -13,55 +13,60 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class OrderModelTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Test: Order belongs to a user.
+     */
     public function test_order_belongs_to_user(): void
     {
-        // Arrange: create a user
+        // Arrange
         $user = User::factory()->create();
 
-        // Act: create an order for this user
+        // Act
         $order = Order::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        // Assert: check that order->user return the correct user
+        // Assert
         $this->assertInstanceOf(User::class, $order->user);
         $this->assertEquals($user->id, $order->user->id);
     }
 
-    public function test_order_has_many_order_items(): void
+    /**
+     * Test: Order has many items.
+     */
+    public function test_order_has_many_items(): void
     {
         // Arrange
-        // create an order
         $order = Order::factory()->create();
-
-        // create a category first because products needs categories
         $category = Category::factory()->create();
-
-        // create a product with this category
         $product = Product::factory()->create([
-            'category_id' => $category->id
+            'category_id' => $category->id,
         ]);
 
-        // Act: create 3 order items for this order
+        // Act
         OrderItem::factory()->count(3)->create([
             'order_id' => $order->id,
             'product_id' => $product->id,
         ]);
 
-        // Assert: check that order has 3 items
-        $this->assertCount(3, $order->orderItems);
+        // Assert
+        $this->assertCount(3, $order->items);
     }
 
-    public function test_order_can_access_products_through_pivot(): void
+    /**
+     * Test: Order can access its products through items relationship.
+     */
+    public function test_order_can_access_products_through_items(): void
     {
-        // Arrange: create order and category and 2 products
+        // Arrange
         $order = Order::factory()->create();
         $category = Category::factory()->create();
 
         $product1 = Product::factory()->create(['category_id' => $category->id]);
         $product2 = Product::factory()->create(['category_id' => $category->id]);
 
-        // Act: create order items to link order with the 2 products
+        // Act
         OrderItem::factory()->create([
             'order_id' => $order->id,
             'product_id' => $product1->id,
@@ -72,9 +77,10 @@ class OrderModelTest extends TestCase
             'product_id' => $product2->id,
         ]);
 
-        // Assert: order->products should return 2 products
-        $this->assertCount(2, $order->products);
-        $this->assertTrue($order->products->contains($product1));
-        $this->assertTrue($order->products->contains($product2));
+        // Assert
+        $this->assertCount(2, $order->items);
+        $productIds = $order->items->pluck('product_id');
+        $this->assertTrue($productIds->contains($product1->id));
+        $this->assertTrue($productIds->contains($product2->id));
     }
 }
