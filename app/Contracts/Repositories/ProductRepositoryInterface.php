@@ -47,4 +47,12 @@ interface ProductRepositoryInterface
      * @return bool
      */
     public function delete(Product $product): bool;
+
+    /**
+     * Find a product by its ID.
+     *
+     * @param int $id
+     * @return \App\Models\Product|null
+     */
+    public function findById(int $id): ?Product;
 }
