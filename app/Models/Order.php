@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,35 +9,52 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Single Responsibility: Represents a customer order in the e-commerce store.
+ * Class Order
+ *
+ * Represents a customer order within the e-commerce system.
  */
 class Order extends Model
 {
-    /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory, SoftDeletes;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'user_id',
         'total_price',
         'status',
+        'shipping_address',
+        'shipping_city',
+        'shipping_phone',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
-        'total_price' => 'decimal:2',
+        'total_price' => 'float',
     ];
+
+    /**
+     * Get the user that owns the order.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function orderItems(): HasMany
+
+    /**
+     * Get the items associated with the order.
+     */
+    public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
-    }
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class, 'order_items')
-            ->withPivot('quantity', 'price')
-            ->withTimestamps();
     }
 }
