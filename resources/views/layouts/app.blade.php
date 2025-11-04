@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/templatemo.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-    
+
     <!-- Slick Slider -->
     <link rel="stylesheet" href="{{ asset('assets/css/slick.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/slick-theme.css') }}">
@@ -103,10 +103,27 @@ https://templatemo.com/tm-559-zay-shop
                         data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" href="{{ route('cart.index') }}">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span
-                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                        @php
+                            $cartCount = 0;
+
+                            if (auth()->check()) {
+                                // User cart
+                                $cart = auth()->user()->cart;
+                                $cartCount = $cart ? $cart->items->sum('quantity') : 0;
+                            } else {
+                                // Guest cart
+                                $guestCart = session('guest_cart', []);
+                                $cartCount = array_sum(array_column($guestCart, 'quantity'));
+                            }
+                        @endphp
+                        @if ($cartCount > 0)
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
+                                {{ $cartCount }}
+                            </span>
+                        @endif
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -140,6 +157,25 @@ https://templatemo.com/tm-559-zay-shop
     </div>
 
     <main>
+        {{-- Flash Messages --}}
+        @if (session('success'))
+            <div class="container mt-3">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="container mt-3">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 
@@ -250,7 +286,7 @@ https://templatemo.com/tm-559-zay-shop
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/templatemo.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
-    
+
     <!-- Slick Slider -->
     <script src="{{ asset('assets/js/slick.min.js') }}"></script>
     <!-- End Script -->
