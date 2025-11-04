@@ -2,35 +2,44 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
+/**
+ * Seeds default admin and customer users with their respective roles.
+ */
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
     public function run(): void
     {
-        // Create admin user
-        $admin = User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-        ]);
-        $admin->assignRole('admin');
+        // Ensure roles exist before assigning
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $customerRole = Role::firstOrCreate(['name' => 'customer']);
 
-        // Create customer user
-        $customer = User::factory()->create([
-            'name' => 'Customer User',
-            'email' => 'customer@example.com',
-        ]);
-        $customer->assignRole('customer');
+        // Create Admin User
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'password' => bcrypt('password'),
+            ]
+        );
+        $admin->assignRole($adminRole);
 
-        // Create 8 random customers
-        User::factory()->count(8)->create()->each(function ($user) {
-            $user->assignRole('customer');
-        });
+        // Create Customer User
+        $customer = User::firstOrCreate(
+            ['email' => 'customer@example.com'],
+            [
+                'name' => 'Customer User',
+                'password' => bcrypt('password'),
+            ]
+        );
+        $customer->assignRole($customerRole);
     }
 }
