@@ -1,61 +1,202 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel E-commerce Store - Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A professional e-commerce backend built with Laravel 12, featuring clean architecture, SOLID principles, and comprehensive testing.
 
-## About Laravel
+## 🎯 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   User Authentication (Login/Register)
+-   Role-based Authorization (Admin/Customer)
+-   Product Management (CRUD with images)
+-   Category Management (Hierarchical structure)
+-   Shopping Cart (Guest + Authenticated users)
+-   Order Management (Checkout + Order history)
+-   Event-driven cart merge on login
+-   Repository Pattern + Service Layer
+-   Comprehensive test coverage (29 tests)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Framework:** Laravel 12.x
+-   **PHP:** 8.3+
+-   **Database:** MySQL 8.0
+-   **Authentication:** Custom Laravel Auth (manual implementation using controllers and Blade views)
+-   **Authorization:** Spatie Laravel Permission
+-   **Testing:** PHPUnit
+-   **Frontend:** Blade + Bootstrap (Zay Shop template)
 
-## Learning Laravel
+## 📦 Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Prerequisites
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   PHP 8.3 or higher
+-   Composer
+-   MySQL 8.0 or higher
+-   Node.js & NPM (for asset compilation)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Setup Steps
 
-## Laravel Sponsors
+1. **Clone the repository**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone https://github.com/Galhoom22/laravel-ecommerce-store-backend.git
+cd laravel-ecommerce-store-backend
+```
 
-### Premium Partners
+2. **Install dependencies**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+composer install
+npm install && npm run build
+```
 
-## Contributing
+3. **Environment configuration**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+4. **Configure database**
+   Edit `.env` file:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_ecommerce
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Security Vulnerabilities
+5. **Run migrations & seeders**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate --seed
+```
 
-## License
+6. **Start development server**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan serve
+```
+
+Visit: `http://localhost:8000`
+
+## 🔐 Default Credentials
+
+### Admin Account
+
+-   **Email:** admin@example.com
+-   **Password:** password
+
+### Customer Account
+
+-   **Email:** customer@example.com
+-   **Password:** password
+
+## 🧪 Testing
+
+Run all tests:
+
+```bash
+php artisan test
+```
+
+Run specific test suite:
+
+```bash
+php artisan test --testsuite=Unit
+php artisan test --testsuite=Feature
+```
+
+## 📁 Project Structure
+
+```
+app/
+├── Contracts/              # Service & Repository Interfaces
+├── Http/
+│   ├── Controllers/        # HTTP Controllers
+│   └── Requests/           # Form Request Validation
+├── Listeners/              # Event Listeners
+├── Models/                 # Eloquent Models
+├── Policies/               # Authorization Policies
+├── Repositories/           # Data Access Layer
+└── Services/               # Business Logic Layer
+
+resources/views/            # Blade Templates
+routes/web.php             # Application Routes
+tests/
+├── Feature/               # Feature Tests
+└── Unit/                  # Unit Tests
+```
+
+## 🏗️ Architecture
+
+This project follows **Clean Architecture** principles:
+
+```
+Controller → Service → Repository → Model
+```
+
+### Design Patterns
+
+-   **Repository Pattern:** Abstracts data access
+-   **Service Layer:** Contains business logic
+-   **Dependency Injection:** All dependencies via interfaces
+-   **Event-Driven:** Cart merge on login event
+
+### SOLID Principles
+
+-   ✅ Single Responsibility Principle
+-   ✅ Open/Closed Principle
+-   ✅ Liskov Substitution Principle
+-   ✅ Interface Segregation Principle
+-   ✅ Dependency Inversion Principle
+
+## 🔑 Key Features
+
+### Shopping Cart
+
+-   Guest cart (session-based)
+-   User cart (database-backed)
+-   Automatic merge on login
+-   CRUD operations
+
+### Order System
+
+-   Checkout with shipping details
+-   Order history
+-   Order status tracking
+-   Transaction safety with DB locks
+
+### Authorization
+
+-   Role-based access control
+-   Admin can manage products/categories
+-   Customers can only place orders
+
+## 📚 API Documentation
+
+Documentation generated via L5-Swagger at `/api/documentation`
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+## 📝 License
+
+This project is open-sourced software licensed under the MIT license.
+
+## 👨‍💻 Author
+
+Abdelrahman Galhoom - [GitHub Profile](https://github.com/Galhoom22)
+
+## 🙏 Acknowledgments
+
+-   Laravel Framework
+-   Spatie Laravel Permission
+-   Zay Shop Template by TemplateMo
