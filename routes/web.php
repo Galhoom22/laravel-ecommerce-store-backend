@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use Spatie\Permission\Middlewares\RoleMiddleware;
 
 // ======================================================
 // Public Pages
@@ -36,10 +37,15 @@ Route::controller(AuthController::class)->group(function () {
 // ======================================================
 // Admin Routes (Protected)
 // ======================================================
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('products', ProductController::class);
-    Route::resource('categories', CategoryController::class);
-});
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::redirect('/dashboard', '/admin/products')->name('dashboard');
+        Route::resource('products', ProductController::class);
+        Route::resource('categories', CategoryController::class);
+    });
+
 
 // ======================================================
 // Cart Routes

@@ -59,21 +59,30 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        // 1. validate the request data
+        // 1. Validate the request data
         $credentials = $request->validated();
 
-        // 2. try to authenticate the user
+        // 2. Attempt to authenticate the user
         if ($this->authService->attemptLogin($credentials)) {
-            // 3. Regenerate the session ID after successful login to prevent session fixation attacks (security best practice)
+            // 3. Regenerate the session ID after successful login
             $request->session()->regenerate();
 
-            // 4. redirect to home route
+            // 4. Retrieve the authenticated user as concrete User model
+            /** @var \App\Models\User|null $user */
+            $user = Auth::user();
+
+            // 5. Redirect based on role (safe check to avoid errors if trait is not available)
+            if ($user !== null && method_exists($user, 'hasRole') && $user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            // 6. Default redirect for normal customers
             return redirect()->route('home');
         }
 
-        // 5. If authentication fails redirect back with an error message
+        // 7. If authentication fails, redirect back with error message
         return back()->withErrors([
-            'email' => __('auth.failed') // even if the site is english using __('auth.failed') is preferred over a string
+            'email' => __('auth.failed'),
         ])->withInput($request->only('email'));
     }
 
@@ -83,7 +92,8 @@ class AuthController extends Controller
      * @param Request $request The current HTTP request instance.
      * @return \Illuminate\Http\RedirectResponse Redirects the user to the home page.
      */
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         // 1. Delegate logout to AuthService (business logic)
         $this->authService->logoutUser();
 
