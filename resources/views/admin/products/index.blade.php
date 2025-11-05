@@ -36,7 +36,7 @@
                 <table class="table table-bordered">
                     <thead class="table-light">
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Name</th>
                             <th>Category</th>
                             <th>Price</th>
@@ -48,7 +48,7 @@
                     <tbody>
                         @forelse($products as $product)
                             <tr>
-                                <td>{{ $product->id }}</td>
+                                <td>{{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>${{ number_format($product->price, 2) }}</td>
