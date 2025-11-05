@@ -37,8 +37,10 @@ class Product extends Model
 
     public function category(): BelongsTo
     {
-        // A Product belongs to one Category
-        return $this->belongsTo(Category::class);
+        // A Product belongs to one Category (with a default fallback)
+        return $this->belongsTo(Category::class)->withDefault([
+            'name' => 'Uncategorized',
+        ]);
     }
 
     /**
