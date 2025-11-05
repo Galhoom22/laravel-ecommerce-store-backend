@@ -11,6 +11,7 @@ use App\Services\CartService;
 use App\Services\OrderService;
 use App\Policies\ProductPolicy;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Pagination\Paginator;
 
 // Services
 use App\Policies\CategoryPolicy;
@@ -99,5 +100,8 @@ final class AppServiceProvider extends ServiceProvider
         Route::aliasMiddleware('role', RoleMiddleware::class);
         Route::aliasMiddleware('permission', PermissionMiddleware::class);
         Route::aliasMiddleware('role_or_permission', RoleOrPermissionMiddleware::class);
+
+        // Force Laravel pagination to use Bootstrap 5 theme
+        Paginator::useBootstrapFive();
     }
 }
