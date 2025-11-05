@@ -158,7 +158,7 @@ final class CartService implements CartServiceInterface
     }
 
     // ======================================================
-    // User Cart (via Repository)   
+    // User Cart (via Repository)
     // ======================================================
 
     /**
@@ -255,19 +255,26 @@ final class CartService implements CartServiceInterface
             ?? $this->cartRepository->createForUser($userId);
 
         foreach ($guestCart as $guestItem) {
-            $product = $this->productRepository->findById($guestItem['product_id']);
+            $productId = (int) $guestItem['product_id'];
+            $quantity  = (int) $guestItem['quantity'];
 
+            $product = $this->productRepository->findById($productId);
             if (!$product) {
                 continue;
             }
 
-            $existing = $cart->items->firstWhere('product_id', $guestItem['product_id']);
+            $existingItem = $cart->items->firstWhere('product_id', $productId);
 
-            if ($existing) {
-                $newQty = $existing->quantity + $guestItem['quantity'];
-                $this->cartRepository->updateItemQuantity($existing, $newQty);
+            if ($existingItem) {
+                $newQuantity = $existingItem->quantity + $quantity;
+                $this->cartRepository->updateItemQuantity($existingItem, $newQuantity);
             } else {
-                $this->cartRepository->addItem($cart, $guestItem['product_id'], $guestItem['quantity'], $product->price);
+                $this->cartRepository->addItem(
+                    $cart,
+                    $productId,
+                    $quantity,
+                    (float) $product->price
+                );
             }
         }
 
