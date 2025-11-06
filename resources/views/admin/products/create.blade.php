@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="container py-5">
-        <form action="{{ route('admin.products.store') }}" method="POST" class="col-md-8 m-auto">
+        <form action="{{ route('admin.products.store') }}" method="POST" class="col-md-8 m-auto" enctype="multipart/form-data">
             @csrf
 
             <!-- Name -->
@@ -80,6 +80,15 @@
                         {{ old('is_active') ? 'checked' : '' }}>
                     <label for="is_active" class="form-check-label">Active</label>
                 </div>
+            </div>
+
+            {{-- Image --}}
+            <div class="mb-3">
+                <label for="image" class="form-label">Product Image</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                @error('image')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <!-- Buttons -->

@@ -98,9 +98,8 @@
                         <div class="col-md-4">
                             <div class="card mb-4 product-wap rounded-0">
                                 <div class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid"
-                                        src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/img/placeholder.png') }}"
-                                        alt="{{ $product->name }}" style="height: 300px; object-fit: cover;">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                                        class="card-img rounded-0 img-fluid" style="height: 300px; object-fit: cover;">
                                     <div
                                         class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                         <ul class="list-unstyled">

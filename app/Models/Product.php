@@ -35,6 +35,27 @@ class Product extends Model
         'is_active' => 'boolean',
     ];
 
+    /**
+     * Get the full URL of the product image or a default placeholder.
+     *
+     * @return string
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if ($this->image === null || $this->image === '') {
+            // fallback to a default "no image" asset
+            return asset('assets/img/no-image-placeholder.png');
+        }
+
+        // If image is already a full URL (seeder uses external link)
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        // Otherwise, assume it is stored on the public disk
+        return asset('storage/' . ltrim($this->image, '/'));
+    }
+
     public function category(): BelongsTo
     {
         // A Product belongs to one Category (with a default fallback)

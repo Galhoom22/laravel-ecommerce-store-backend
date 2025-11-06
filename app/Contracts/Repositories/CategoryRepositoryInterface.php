@@ -16,6 +16,13 @@ use Illuminate\Database\Eloquent\Collection;
 interface CategoryRepositoryInterface
 {
     /**
+     * Find a category by its ID.
+     *
+     * @param int $id
+     * @return Category|null
+     */
+    public function findById(int $id): ?Category;
+    /**
      * Retrieve all categories with parent relationship.
      *
      * @return Collection<Category>
