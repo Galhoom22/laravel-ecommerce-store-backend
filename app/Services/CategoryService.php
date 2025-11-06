@@ -65,6 +65,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function createCategory(array $data): Category
     {
+        $data['is_active'] = $data['is_active'] ?? false;
         return $this->categoryRepository->create($data);
     }
 
@@ -77,6 +78,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function updateCategory(Category $category, array $data): Category
     {
+        $data['is_active'] = $data['is_active'] ?? false;
         return $this->categoryRepository->update($category, $data);
     }
 
