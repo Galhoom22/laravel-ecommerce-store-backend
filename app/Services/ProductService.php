@@ -60,6 +60,7 @@ class ProductService implements ProductServiceInterface
      */
     public function createProduct(array $data): Product
     {
+        $data['is_active'] = $data['is_active'] ?? false;
         $data = $this->handleImageUpload($data);
         return $this->productRepository->create($data);
     }
@@ -73,6 +74,7 @@ class ProductService implements ProductServiceInterface
      */
     public function updateProduct(Product $product, array $data): Product
     {
+        $data['is_active'] = $data['is_active'] ?? false;
         $data = $this->handleImageUpload($data);
         return $this->productRepository->update($product, $data);
     }
