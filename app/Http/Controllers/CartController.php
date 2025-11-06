@@ -92,10 +92,13 @@ final class CartController extends Controller
         $validated = $request->validated();
 
         try {
+            $productId = (int) $validated['product_id'];
+            $quantity  = (int) $validated['quantity'];
+
             if (Auth::check()) {
-                $this->cartService->addToUserCart($validated['product_id'], $validated['quantity']);
+                $this->cartService->addToUserCart($productId, $quantity);
             } else {
-                $this->cartService->addToGuestCart($validated['product_id'], $validated['quantity']);
+                $this->cartService->addToGuestCart($productId, $quantity);
             }
 
             return redirect()->route('cart.index')->with('success', 'Product added to cart!');
@@ -120,10 +123,12 @@ final class CartController extends Controller
         $validated = $request->validated();
 
         try {
+            $quantity = (int) $validated['quantity'];
+
             if (Auth::check()) {
-                $this->cartService->updateUserCartItem($productId, $validated['quantity']);
+                $this->cartService->updateUserCartItem($productId, $quantity);
             } else {
-                $this->cartService->updateGuestCartItem($productId, $validated['quantity']);
+                $this->cartService->updateGuestCartItem($productId, $quantity);
             }
 
             return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
@@ -131,6 +136,7 @@ final class CartController extends Controller
             return back()->with('error', 'Failed to update cart: ' . $e->getMessage());
         }
     }
+
 
     // ======================================================
     // 4. DESTROY

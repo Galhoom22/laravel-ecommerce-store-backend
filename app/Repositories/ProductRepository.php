@@ -24,7 +24,9 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getPaginated(int $perPage = 15): LengthAwarePaginator
     {
-        return Product::with('category')->paginate($perPage);
+        return Product::with('category')
+            ->orderBy('id', 'asc')
+            ->paginate($perPage);
     }
 
     /**

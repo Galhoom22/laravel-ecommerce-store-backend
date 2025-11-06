@@ -51,7 +51,14 @@ class ProductController extends Controller
     {
         $this->authorize('create', Product::class);
 
-        $this->productService->createProduct($request->validated());
+        $data = $request->validated();
+
+        // Attach the uploaded file to the request
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image');
+        }
+
+        $this->productService->createProduct($data);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully.');

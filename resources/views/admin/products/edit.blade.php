@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="container py-5">
-        <form action="{{ route('admin.products.update', $product) }}" method="POST" class="col-md-8 m-auto">
+        <form action="{{ route('admin.products.update', $product) }}" method="POST" class="col-md-8 m-auto" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -82,6 +82,24 @@
                         {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
                     <label for="is_active" class="form-check-label">Active</label>
                 </div>
+            </div>
+
+            {{-- Current Image Preview --}}
+            @if ($product->image)
+                <div class="mb-3">
+                    <label class="form-label d-block">Current Image</label>
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid mb-2"
+                        style="max-height: 150px;">
+                </div>
+            @endif
+
+            {{-- Upload New Image --}}
+            <div class="mb-3">
+                <label for="image" class="form-label">Change Product Image (optional)</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                @error('image')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <!-- Buttons -->

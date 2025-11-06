@@ -18,11 +18,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            // try to find an existing user first before creating a new one
             'user_id' => User::inRandomOrder()->first()?->id ?? User::factory(),
             'total_price' => 0.00,
-            // Select a random status from the allowed enum values
             'status' => fake()->randomElement(['pending', 'processing', 'completed', 'cancelled']),
+            'shipping_address' => fake()->address(),
+            'shipping_city' => fake()->city(),
+            'shipping_phone' => fake()->phoneNumber(),
         ];
     }
 }

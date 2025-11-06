@@ -4,38 +4,43 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
 use App\Models\Product;
 use App\Models\Category;
-use App\Policies\ProductPolicy;
-use App\Policies\CategoryPolicy;
-
-// Services
 use App\Services\AuthService;
 use App\Services\CartService;
+use App\Services\OrderService;
+use App\Policies\ProductPolicy;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Pagination\Paginator;
+
+// Services
+use App\Policies\CategoryPolicy;
 use App\Services\ProductService;
 use App\Services\CategoryService;
-use App\Services\OrderService;
+use App\Repositories\CartRepository;
+use Illuminate\Support\Facades\Gate;
 
 // Service Interfaces
+use App\Repositories\OrderRepository;
 use App\Contracts\AuthServiceInterface;
 use App\Contracts\CartServiceInterface;
-use App\Contracts\ProductServiceInterface;
-use App\Contracts\CategoryServiceInterface;
-use App\Contracts\OrderServiceInterface;
+use App\Repositories\ProductRepository;
+use Illuminate\Support\ServiceProvider;
 
 // Repositories
-use App\Repositories\CartRepository;
-use App\Repositories\OrderRepository;
-use App\Repositories\ProductRepository;
+use App\Contracts\OrderServiceInterface;
 use App\Repositories\CategoryRepository;
+use App\Contracts\ProductServiceInterface;
+use App\Contracts\CategoryServiceInterface;
 
 // Repository Interfaces
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 use App\Contracts\Repositories\CartRepositoryInterface;
 use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Contracts\Repositories\ProductRepositoryInterface;
 use App\Contracts\Repositories\CategoryRepositoryInterface;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 /**
  * Class AppServiceProvider
@@ -88,5 +93,15 @@ final class AppServiceProvider extends ServiceProvider
         // -----------------------
         Gate::policy(Product::class, ProductPolicy::class);
         Gate::policy(Category::class, CategoryPolicy::class);
+
+        // -----------------------
+        // Spatie Middleware Registration (Laravel 12)
+        // -----------------------
+        Route::aliasMiddleware('role', RoleMiddleware::class);
+        Route::aliasMiddleware('permission', PermissionMiddleware::class);
+        Route::aliasMiddleware('role_or_permission', RoleOrPermissionMiddleware::class);
+
+        // Force Laravel pagination to use Bootstrap 5 theme
+        Paginator::useBootstrapFive();
     }
 }

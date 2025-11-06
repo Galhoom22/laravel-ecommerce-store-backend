@@ -125,11 +125,26 @@ https://templatemo.com/tm-559-zay-shop
                             </span>
                         @endif
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span
-                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
-                    </a>
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit"
+                                class="btn btn-link nav-icon position-relative text-decoration-none p-0 m-0"
+                                style="border: none;">
+                                <i class="fa fa-fw fa-sign-out-alt text-dark mr-3"></i>
+                                <span class="d-none d-lg-inline text-dark">Logout</span>
+                            </button>
+                        </form>
+                    @else
+                        <a class="nav-icon position-relative text-decoration-none" href="{{ url('/login') }}">
+                            <i class="fa fa-fw fa-sign-in-alt text-dark mr-3"></i>
+                            <span class="d-none d-lg-inline text-dark">Login</span>
+                        </a>
+                        <a class="nav-icon position-relative text-decoration-none" href="{{ url('/register') }}">
+                            <i class="fa fa-fw fa-user-plus text-dark mr-3"></i>
+                            <span class="d-none d-lg-inline text-dark">Register</span>
+                        </a>
+                    @endauth
                 </div>
             </div>
 

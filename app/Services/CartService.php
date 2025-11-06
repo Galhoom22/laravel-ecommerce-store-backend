@@ -158,7 +158,7 @@ final class CartService implements CartServiceInterface
     }
 
     // ======================================================
-    // User Cart (via Repository)   
+    // User Cart (via Repository)
     // ======================================================
 
     /**
@@ -174,23 +174,40 @@ final class CartService implements CartServiceInterface
     }
 
     /**
-     * Add an item to the authenticated user's cart.
+     * Add or update a product in the authenticated user's cart.
      *
      * @param int $productId
      * @param int $quantity
-     * @return CartItem
+     * @return \App\Models\CartItem
      */
     public function addToUserCart(int $productId, int $quantity): CartItem
     {
-        /** @var int|null $userId */
         $userId = Auth::id() ?? throw new InvalidArgumentException('User not authenticated.');
+
+        // Get or create user cart
         $cart = $this->cartRepository->findByUserId($userId)
             ?? $this->cartRepository->createForUser($userId);
 
+        // Find product
         $product = $this->productRepository->findById($productId)
             ?? throw new InvalidArgumentException('Product not found.');
 
-        return $this->cartRepository->addItem($cart, $productId, $quantity, (float) $product->price);
+        // Check if this product already exists in user's cart
+        $existingItem = $cart->items()->where('product_id', $productId)->first();
+
+        if ($existingItem) {
+            // If product exists, increment quantity instead of inserting duplicate
+            $existingItem->increment('quantity', $quantity);
+            return $existingItem->refresh();
+        }
+
+        // Otherwise create a new cart item
+        return $this->cartRepository->addItem(
+            $cart,
+            $productId,
+            $quantity,
+            (float) $product->price
+        );
     }
 
     /**
@@ -255,19 +272,26 @@ final class CartService implements CartServiceInterface
             ?? $this->cartRepository->createForUser($userId);
 
         foreach ($guestCart as $guestItem) {
-            $product = $this->productRepository->findById($guestItem['product_id']);
+            $productId = (int) $guestItem['product_id'];
+            $quantity  = (int) $guestItem['quantity'];
 
+            $product = $this->productRepository->findById($productId);
             if (!$product) {
                 continue;
             }
 
-            $existing = $cart->items->firstWhere('product_id', $guestItem['product_id']);
+            $existingItem = $cart->items->firstWhere('product_id', $productId);
 
-            if ($existing) {
-                $newQty = $existing->quantity + $guestItem['quantity'];
-                $this->cartRepository->updateItemQuantity($existing, $newQty);
+            if ($existingItem) {
+                $newQuantity = $existingItem->quantity + $quantity;
+                $this->cartRepository->updateItemQuantity($existingItem, $newQuantity);
             } else {
-                $this->cartRepository->addItem($cart, $guestItem['product_id'], $guestItem['quantity'], $product->price);
+                $this->cartRepository->addItem(
+                    $cart,
+                    $productId,
+                    $quantity,
+                    (float) $product->price
+                );
             }
         }
 
