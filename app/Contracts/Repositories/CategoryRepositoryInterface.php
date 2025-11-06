@@ -4,6 +4,7 @@ namespace App\Contracts\Repositories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Interface CategoryRepositoryInterface
@@ -28,6 +29,14 @@ interface CategoryRepositoryInterface
      * @return Collection<Category>
      */
     public function getAll(): Collection;
+
+    /**
+     * Get paginated categories with parent relationship.
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginated(int $perPage = 10): LengthAwarePaginator;
 
     /**
      * Persist a new category to the database.

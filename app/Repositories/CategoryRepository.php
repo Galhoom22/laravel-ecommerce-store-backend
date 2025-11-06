@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Models\Category;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -26,20 +27,34 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::find($id);
     }
+
     /**
-     * Get all categories with parent relationship.
+     * Get all categories (non-paginated) with parent relationship.
      *
      * @return Collection<Category>
      */
     public function getAll(): Collection
     {
-        return Category::with('parent')->get();
+        return Category::with('parent')
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    /**
+     * Get paginated categories with parent relationship.
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginated(int $perPage = 10): LengthAwarePaginator
+    {
+        return Category::with('parent')->orderByDesc('id')->paginate($perPage);
     }
 
     /**
      * Create a new category in the database.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return Category
      */
     public function create(array $data): Category
@@ -51,7 +66,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      * Update category in the database.
      *
      * @param Category $category
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return Category
      */
     public function update(Category $category, array $data): Category

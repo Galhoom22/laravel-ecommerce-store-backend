@@ -6,6 +6,8 @@ use App\Contracts\CategoryServiceInterface;
 use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 /**
  * Class CategoryService
@@ -42,6 +44,17 @@ class CategoryService implements CategoryServiceInterface
     public function getAllCategories(): Collection
     {
         return $this->categoryRepository->getAll();
+    }
+
+    /**
+     * Retrieve paginated categories list.
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginatedCategories(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->categoryRepository->getPaginated($perPage);
     }
 
     /**
