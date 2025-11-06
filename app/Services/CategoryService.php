@@ -6,6 +6,8 @@ use App\Contracts\CategoryServiceInterface;
 use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 /**
  * Class CategoryService
@@ -45,6 +47,17 @@ class CategoryService implements CategoryServiceInterface
     }
 
     /**
+     * Retrieve paginated categories list.
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginatedCategories(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->categoryRepository->getPaginated($perPage);
+    }
+
+    /**
      * Create a new category.
      *
      * @param array $data
@@ -52,6 +65,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function createCategory(array $data): Category
     {
+        $data['is_active'] = $data['is_active'] ?? false;
         return $this->categoryRepository->create($data);
     }
 
@@ -64,6 +78,7 @@ class CategoryService implements CategoryServiceInterface
      */
     public function updateCategory(Category $category, array $data): Category
     {
+        $data['is_active'] = $data['is_active'] ?? false;
         return $this->categoryRepository->update($category, $data);
     }
 

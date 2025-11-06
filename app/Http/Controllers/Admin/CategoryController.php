@@ -46,9 +46,7 @@ class CategoryController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Category::class);
-
-        $categories = $this->categoryService->getAllCategories();
-
+        $categories = $this->categoryService->getPaginatedCategories(10);
         return view('admin.categories.index', compact('categories'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Contracts;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Interface CategoryServiceInterface
@@ -22,6 +23,15 @@ interface CategoryServiceInterface
      * @return Collection<Category> A collection of all categories.
      */
     public function getAllCategories(): Collection;
+
+    /**
+     * Get paginated categories.
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginatedCategories(int $perPage = 10): LengthAwarePaginator;
+
 
     /**
      * Create a new category with the given data.

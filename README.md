@@ -1,10 +1,10 @@
-# Laravel E-commerce Store - Backend
+# Laravel E-commerce Store (Backend)
 
 A professional e-commerce backend built with Laravel 12, featuring clean architecture, SOLID principles, and comprehensive testing.
 
 ## 🎯 Features
 
--   User Authentication (Login/Register)
+-   User Authentication (Login & Register)
 -   Role-based Authorization (Admin/Customer)
 -   Product Management (CRUD with images)
 -   Category Management (Hierarchical structure)
@@ -109,27 +109,6 @@ php artisan test --testsuite=Unit
 php artisan test --testsuite=Feature
 ```
 
-## 📁 Project Structure
-
-```
-app/
-├── Contracts/              # Service & Repository Interfaces
-├── Http/
-│   ├── Controllers/        # HTTP Controllers
-│   └── Requests/           # Form Request Validation
-├── Listeners/              # Event Listeners
-├── Models/                 # Eloquent Models
-├── Policies/               # Authorization Policies
-├── Repositories/           # Data Access Layer
-└── Services/               # Business Logic Layer
-
-resources/views/            # Blade Templates
-routes/web.php             # Application Routes
-tests/
-├── Feature/               # Feature Tests
-└── Unit/                  # Unit Tests
-```
-
 ## 🏗️ Architecture
 
 This project follows **Clean Architecture** principles:
@@ -175,9 +154,11 @@ Controller → Service → Repository → Model
 -   Admin can manage products/categories
 -   Customers can only place orders
 
-## 📚 API Documentation
+## 📘 API & Web Documentation
 
-Documentation generated via L5-Swagger at `/api/documentation`
+-   📬 **Postman Collection:** [Laravel-Ecommerce-Web-Routes.postman_collection.json](./docs/postman/Laravel-Ecommerce-Web-Routes.postman_collection.json)
+-   🌐 Base URL: `{{base_url}}` → Default: `http://127.0.0.1:8000`
+-   🧩 Import into Postman → Select Environment → **Laravel E-commerce Env**
 
 ## 🤝 Contributing
 
@@ -186,10 +167,6 @@ Documentation generated via L5-Swagger at `/api/documentation`
 3. Commit changes (`git commit -m 'feat: add amazing feature'`)
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
-
-## 📝 License
-
-This project is open-sourced software licensed under the MIT license.
 
 ## 👨‍💻 Author
 

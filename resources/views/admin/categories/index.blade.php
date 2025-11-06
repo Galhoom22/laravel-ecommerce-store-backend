@@ -36,7 +36,7 @@
                 <table class="table table-bordered">
                     <thead class="table-light">
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Name</th>
                             <th>Parent Category</th>
                             <th>Status</th>
@@ -46,7 +46,7 @@
                     <tbody>
                         @forelse($categories as $category)
                             <tr>
-                                <td>{{ $category->id }}</td>
+                                <td>{{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->parent ? $category->parent->name : '-' }}</td>
                                 <td>
@@ -74,6 +74,9 @@
                         @endforelse
                     </tbody>
                 </table>
+                <div class="mt-3">
+                    {{ $categories->links() }}
+                </div>
             </div>
         </div>
     </div>
