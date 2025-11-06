@@ -174,23 +174,40 @@ final class CartService implements CartServiceInterface
     }
 
     /**
-     * Add an item to the authenticated user's cart.
+     * Add or update a product in the authenticated user's cart.
      *
      * @param int $productId
      * @param int $quantity
-     * @return CartItem
+     * @return \App\Models\CartItem
      */
     public function addToUserCart(int $productId, int $quantity): CartItem
     {
-        /** @var int|null $userId */
         $userId = Auth::id() ?? throw new InvalidArgumentException('User not authenticated.');
+
+        // Get or create user cart
         $cart = $this->cartRepository->findByUserId($userId)
             ?? $this->cartRepository->createForUser($userId);
 
+        // Find product
         $product = $this->productRepository->findById($productId)
             ?? throw new InvalidArgumentException('Product not found.');
 
-        return $this->cartRepository->addItem($cart, $productId, $quantity, (float) $product->price);
+        // Check if this product already exists in user's cart
+        $existingItem = $cart->items()->where('product_id', $productId)->first();
+
+        if ($existingItem) {
+            // If product exists, increment quantity instead of inserting duplicate
+            $existingItem->increment('quantity', $quantity);
+            return $existingItem->refresh();
+        }
+
+        // Otherwise create a new cart item
+        return $this->cartRepository->addItem(
+            $cart,
+            $productId,
+            $quantity,
+            (float) $product->price
+        );
     }
 
     /**
