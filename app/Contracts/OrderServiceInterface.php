@@ -7,6 +7,7 @@ namespace App\Contracts;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 use Throwable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Interface OrderServiceInterface
@@ -47,4 +48,14 @@ interface OrderServiceInterface
      * @return Order|null
      */
     public function getOrderById(int $orderId, int $userId): ?Order;
+
+    /**
+     * Retrieve paginated list of all orders for admin panel.
+     *
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginated(int $perPage = 10): LengthAwarePaginator;
+    public function findById(int $id): ?Order;
+    public function update(int $id, array $data): bool;
 }

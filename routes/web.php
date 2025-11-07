@@ -7,8 +7,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\OrderController;
 use Spatie\Permission\Middlewares\RoleMiddleware;
+use App\Http\Controllers\OrderController as UserOrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
 // ======================================================
 // Public Pages
@@ -44,8 +45,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::redirect('/dashboard', '/admin/products')->name('dashboard');
         Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
+        Route::resource('orders', AdminOrderController::class);
     });
-
 
 // ======================================================
 // Cart Routes
@@ -67,6 +68,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
     // Orders
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [UserOrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
 });

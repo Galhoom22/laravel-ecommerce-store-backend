@@ -8,6 +8,7 @@ use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class OrderRepository
@@ -63,5 +64,18 @@ final class OrderRepository implements OrderRepositoryInterface
     public function findById(int $id): ?Order
     {
         return Order::with('items.product')->find($id);
+    }
+
+    public function getPaginated(int $perPage = 10): LengthAwarePaginator
+    {
+        return Order::with(['user'])
+            ->latest()
+            ->paginate($perPage);
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $order = Order::findOrFail($id);
+        return $order->update($data);
     }
 }

@@ -3,7 +3,7 @@
         "_postman_id": "e5d6bb29-fc88-45ab-b09c-0b468bd3fcc5",
         "name": "Laravel E-commerce Store (Web Routes)",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "description": "Professional Postman Collection for Laravel E-commerce project (Web Routes Only)."
+        "description": "Updated Postman Collection for Laravel E-commerce project (GET routes only, with descriptions)."
     },
     "variable": [
         {
@@ -19,85 +19,41 @@
                     "name": "Home",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": []
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/",
+                        "description": "Display homepage with featured products."
+                    }
                 },
                 {
                     "name": "Shop",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/shop",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "shop"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/shop",
+                        "description": "Display product listing page with pagination."
+                    }
                 },
                 {
                     "name": "Product Details",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/shop/{id}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "shop",
-                                "{id}"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/shop/{id}",
+                        "description": "Display detailed product information."
+                    }
                 },
                 {
                     "name": "About",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/about",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "about"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/about",
+                        "description": "Show about us page."
+                    }
                 },
                 {
                     "name": "Contact",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/contact",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "contact"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/contact",
+                        "description": "Show contact information page."
+                    }
                 }
             ]
         },
@@ -108,35 +64,17 @@
                     "name": "Login Page",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/login",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "login"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/login",
+                        "description": "Show login form for users."
+                    }
                 },
                 {
                     "name": "Register Page",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/register",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "register"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/register",
+                        "description": "Show registration form for new users."
+                    }
                 }
             ]
         },
@@ -147,53 +85,25 @@
                     "name": "View Cart",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/cart",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "cart"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/cart",
+                        "description": "Display user's current shopping cart."
+                    }
                 },
                 {
                     "name": "Checkout Page",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/checkout",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "checkout"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/checkout",
+                        "description": "Display checkout form for finalizing orders."
+                    }
                 },
                 {
                     "name": "Order Success",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/order/success",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "order",
-                                "success"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/order/success",
+                        "description": "Show order confirmation after successful checkout."
+                    }
                 }
             ]
         },
@@ -204,151 +114,73 @@
                     "name": "Dashboard",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/dashboard",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "dashboard"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/dashboard",
+                        "description": "Display admin dashboard with quick stats."
+                    }
                 },
                 {
                     "name": "Categories List",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/categories",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "categories"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/categories",
+                        "description": "List all categories for admin management."
+                    }
                 },
                 {
                     "name": "Create Category",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/categories/create",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "categories",
-                                "create"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/categories/create",
+                        "description": "Show form to create a new category."
+                    }
                 },
                 {
                     "name": "Edit Category",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/categories/{id}/edit",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "categories",
-                                "{id}",
-                                "edit"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/categories/{id}/edit",
+                        "description": "Show edit form for a specific category."
+                    }
                 },
                 {
                     "name": "Products List",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/products",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "products"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/products",
+                        "description": "List all products for admin management."
+                    }
                 },
                 {
                     "name": "Create Product",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/products/create",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "products",
-                                "create"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/products/create",
+                        "description": "Show form to create a new product."
+                    }
                 },
                 {
                     "name": "Edit Product",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/products/{id}/edit",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "products",
-                                "{id}",
-                                "edit"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/products/{id}/edit",
+                        "description": "Show edit form for a specific product."
+                    }
                 },
                 {
                     "name": "Orders List",
                     "request": {
                         "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/admin/orders",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "admin",
-                                "orders"
-                            ]
-                        }
-                    },
-                    "response": []
+                        "url": "{{base_url}}/admin/orders",
+                        "description": "List all customer orders for admin."
+                    }
+                },
+                {
+                    "name": "Order Details",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/admin/orders/{id}",
+                        "description": "View detailed order information for admin."
+                    }
                 }
             ]
         }
