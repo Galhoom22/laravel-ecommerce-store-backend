@@ -72,4 +72,10 @@ final class OrderRepository implements OrderRepositoryInterface
             ->latest()
             ->paginate($perPage);
     }
+
+    public function update(int $id, array $data): bool
+    {
+        $order = Order::findOrFail($id);
+        return $order->update($data);
+    }
 }

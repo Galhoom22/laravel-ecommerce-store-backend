@@ -22,23 +22,42 @@
                         <td>{{ $order->user->name ?? 'Guest' }}</td>
                         <td>${{ number_format($order->total_price, 2) }}</td>
                         <td>
-                            <span class="badge bg-warning text-dark">{{ ucfirst($order->status) }}</span>
+                            @switch($order->status)
+                                @case('pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @break
+
+                                @case('processing')
+                                    <span class="badge bg-info text-dark">Processing</span>
+                                @break
+
+                                @case('completed')
+                                    <span class="badge bg-success">Completed</span>
+                                @break
+
+                                @case('cancelled')
+                                    <span class="badge bg-danger">Cancelled</span>
+                                @break
+
+                                @default
+                                    <span class="badge bg-secondary">Unknown</span>
+                            @endswitch
                         </td>
                         <td>{{ $order->created_at->format('M d, Y') }}</td>
                         <td>
                             <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-primary">View Details</a>
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-muted">No orders found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-muted">No orders found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
 
-        <div class="d-flex justify-content-center mt-3">
-            {{ $orders->links() }}
+            <div class="d-flex justify-content-center mt-3">
+                {{ $orders->links() }}
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection

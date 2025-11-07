@@ -107,4 +107,9 @@ final class OrderService implements OrderServiceInterface
     {
         return $this->orderRepository->findById($id);
     }
+
+    public function update(int $id, array $data): bool
+    {
+        return $this->orderRepository->update($id, $data);
+    }
 }

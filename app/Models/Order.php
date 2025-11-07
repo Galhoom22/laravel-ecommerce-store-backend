@@ -19,6 +19,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const STATUSES = ['pending', 'processing', 'completed', 'cancelled'];
     /**
      * The attributes that are mass assignable.
      *

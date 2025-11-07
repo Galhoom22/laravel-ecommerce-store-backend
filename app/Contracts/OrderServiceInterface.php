@@ -57,4 +57,5 @@ interface OrderServiceInterface
      */
     public function getPaginated(int $perPage = 10): LengthAwarePaginator;
     public function findById(int $id): ?Order;
+    public function update(int $id, array $data): bool;
 }

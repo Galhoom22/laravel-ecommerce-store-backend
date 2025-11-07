@@ -1,4 +1,3 @@
-{{-- resources/views/admin/orders/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Order Details')
@@ -61,10 +60,10 @@
                 <p><strong>Status:</strong>
                     @if ($order->status === 'pending')
                         <span class="badge bg-warning text-dark">Pending</span>
-                    @elseif($order->status === 'shipped')
-                        <span class="badge bg-info text-dark">Shipped</span>
-                    @elseif($order->status === 'delivered')
-                        <span class="badge bg-success">Delivered</span>
+                    @elseif($order->status === 'processing')
+                        <span class="badge bg-info text-dark">Processing</span>
+                    @elseif($order->status === 'completed')
+                        <span class="badge bg-success">Completed</span>
                     @elseif($order->status === 'cancelled')
                         <span class="badge bg-danger">Cancelled</span>
                     @else
@@ -74,7 +73,27 @@
                 <p><strong>Placed On:</strong> {{ $order->created_at->format('d M Y, h:i A') }}</p>
             </div>
         </div>
+        @php
+            $statusFlow = [
+                'pending' => 'processing',
+                'processing' => 'completed',
+                'completed' => 'completed',
+                'cancelled' => 'cancelled',
+            ];
 
+            $nextStatus = $statusFlow[$order->status] ?? $order->status;
+        @endphp
+
+        @if (in_array($order->status, ['pending', 'processing']))
+            <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="status" value="{{ $nextStatus }}">
+                <button type="submit" class="btn btn-primary">
+                    Change Status to {{ ucfirst($nextStatus) }}
+                </button>
+            </form>
+        @endif
         {{-- Back Button --}}
         <div class="text-end">
             <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-secondary">
