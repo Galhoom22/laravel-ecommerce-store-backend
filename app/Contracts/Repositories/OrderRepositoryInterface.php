@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Repositories;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Collection;
@@ -47,4 +48,6 @@ interface OrderRepositoryInterface
      * @return Order|null
      */
     public function findById(int $id): ?Order;
+
+    public function getPaginated(int $perPage = 10): LengthAwarePaginator;
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Throwable;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class OrderService
@@ -95,5 +96,15 @@ final class OrderService implements OrderServiceInterface
         return ($order && $order->user_id === $userId)
             ? $order
             : null;
+    }
+
+    public function getPaginated(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->orderRepository->getPaginated($perPage);
+    }
+
+    public function findById(int $id): ?Order
+    {
+        return $this->orderRepository->findById($id);
     }
 }
