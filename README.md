@@ -12,7 +12,7 @@ A professional e-commerce backend built with Laravel 12, featuring clean archite
 -   Order Management (Checkout + Order history)
 -   Event-driven cart merge on login
 -   Repository Pattern + Service Layer
--   Comprehensive test coverage (29 tests)
+-   Comprehensive test coverage (32 tests)
 
 ## 🛠️ Tech Stack
 
